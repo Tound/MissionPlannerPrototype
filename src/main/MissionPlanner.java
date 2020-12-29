@@ -1,13 +1,16 @@
 package main;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -18,6 +21,10 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.util.List;
+import java.util.Observable;
+
 public class MissionPlanner extends Application {
     private double width = 1280;
     private double height = 720;
@@ -27,8 +34,11 @@ public class MissionPlanner extends Application {
     public Canvas canvas = new Canvas();
     public Button done;
     public Button resetPath;
+    public Button createUAV;
+    public ChoiceBox uavChooser;
     public Scene mainScene;
     public Stage primaryStage;
+    public Group flightPoly;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -53,17 +63,25 @@ public class MissionPlanner extends Application {
         resetPath =  new Button("Reset Path");
         resetPath.setFont(Font.font("Arial", FontPosture.ITALIC, 16));
         resetPath.setTextFill(Color.WHITE);
+        createUAV = new Button("Create UAV");
+        uavChooser = new ChoiceBox();
+        uavChooser.getItems().add(populateUAVs());
+        uavChooser.getSelectionModel().selectFirst();
 
         BorderPane bp = new BorderPane();
         StackPane sp = new StackPane();
 
         Image map = new Image("assets/map.png");
         ImageView iv = new ImageView(map);
+        iv.setScaleX(1.8);
+        iv.setScaleY(1.8);
         GridPane gp = new GridPane();
         gp.setHgap(50);
         //gp.setPadding(new Insets(10,50,10,50));
         gp.add(done,0,0);
         gp.add(resetPath, 1,0);
+        gp.add(createUAV,2,0);
+        gp.add(uavChooser,3,0);
 
         sp.getChildren().add(iv);
         sp.getChildren().add(canvas);
@@ -97,15 +115,54 @@ public class MissionPlanner extends Application {
         done.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                sp.getChildren().add(pathDrawer.joinPath());
+                flightPoly = pathDrawer.joinPath();
+                flightPoly.setLayoutX(0);
+                flightPoly.setLayoutY(0);
+                //sp.getChildren().add(flightPoly);
+                //sp.setAlignment(flightPoly, Pos.TOP_LEFT);
+
             }
         });
         resetPath.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 pathDrawer.resetPath();
+                sp.getChildren().remove(flightPoly);
+            }
+        });
+        createUAV.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                CreateUAV.newUAV();
             }
         });
     }
-
+    public ObservableList populateUAVs(){
+        String path = "src/UAVs";
+        ObservableList uavs = FXCollections.observableArrayList("Create a UAV!");
+        int uavsNo;
+        try{
+            System.out.println(new File(path).isDirectory());
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Cannot access directory! - Ignoring");
+            uavs.clear();
+            uavs.add("Cannot find 'UAVs' directory!");
+            return uavs;
+        }
+        if (new File(path).list() == null){
+            System.out.println("Returning as list is null");
+            return uavs;
+        }else{
+            uavsNo = new File(path).list().length;
+            uavs.clear();
+            for(int i=0; i<uavsNo; i++){
+                String filename = new File(path).list()[i];
+                System.out.println(filename);
+                uavs.add(filename);
+                return uavs;
+            }
+        }
+        return uavs;
+    }
 }

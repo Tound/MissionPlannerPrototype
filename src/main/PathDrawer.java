@@ -3,14 +3,17 @@ package main;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class PathDrawer{
-    private Canvas canvas = new Canvas();
+    private Canvas canvas;
     private GraphicsContext gc;
     private double width = 0;
     private double height = 0;
@@ -46,7 +49,7 @@ public class PathDrawer{
         Polygon flightArea = new Polygon();
         double flightPointsX[] = new double[points.size()];
         double flightPointsY[] = new double[points.size()];
-        for(int i = 0;i<points.size()-1;i++) {
+        for(int i = 0;i<points.size();i++) {
             flightArea.getPoints().addAll(points.get(i).getX(), points.get(i).getY());
             flightPointsX[i] = points.get(i).getX();
             flightPointsY[i] = points.get(i).getY();
@@ -55,7 +58,12 @@ public class PathDrawer{
         System.out.println(flightPointsX);
         flightGroup =  new Group();
         flightGroup.getChildren().add(flightArea);
-        //gc.fillPolygon(flightPointsX, flightPointsY, points.size());
+        Image stripes = new Image("assets/stripes.jpg");
+        gc.setFill(new ImagePattern(stripes, 0,0,canvas.getWidth(), canvas.getHeight(), true));
+        gc.setGlobalAlpha(0.2);
+        gc.fillPolygon(flightPointsX, flightPointsY, points.size());
+        gc.setFill(Color.BLACK);
+        gc.setGlobalAlpha(1);
         return flightGroup;
     }
 
@@ -64,6 +72,7 @@ public class PathDrawer{
         gc.clearRect(0,0, canvas.getWidth(), canvas.getHeight());
         complete = false;
         flightGroup.getChildren().removeAll();
+        gc.restore();
     }
 
 }
