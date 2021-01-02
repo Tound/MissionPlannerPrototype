@@ -1,1 +1,4 @@
-name:defaultweight:Weight of craftturnRadius:Min turn radius of craftbattery:Battery used in craft (Lipo, NiMH, Li-ion...)
+name:default
+weight:Weight of craft
+turnRadius:Min turn radius of craft
+battery:Battery used in craft (Lipo, NiMH, Li-ion...)

@@ -8,9 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -68,6 +66,13 @@ public class MissionPlanner extends Application {
         uavChooser.getItems().add(populateUAVs());
         uavChooser.getSelectionModel().selectFirst();
 
+        ScrollPane flightTab = FlightSettings.createFlightSetup();
+        TabPane tp = new TabPane();
+        Tab flightSettings = new Tab("Flight settings", flightTab);
+        Tab cameraSettings = new Tab("Camera settings");
+
+
+        tp.getTabs().addAll(flightSettings, cameraSettings);
         BorderPane bp = new BorderPane();
         StackPane sp = new StackPane();
 
@@ -92,7 +97,8 @@ public class MissionPlanner extends Application {
 
         SubScene ss =  new SubScene(gp,1280,20);
         bp.setTop(title);
-        bp.setCenter(sp);
+        bp.setLeft(tp);
+        bp.setRight(sp);
         bp.setBottom(gp);
 
         mainScene = new Scene(bp, primaryStage.getWidth(), primaryStage.getHeight(), Color.web("rgb(42, 45, 48)"));

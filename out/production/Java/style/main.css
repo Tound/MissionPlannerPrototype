@@ -1,0 +1,19 @@
+.text{
+    -fx-font: italic 16px "Arial";
+    -fx-text-fill: white;
+    -fx-background-color: White;
+}
+
+.button{
+    -fx-font: 16px "Arial";
+    -fx-text-fill: white;
+    -fx-background-color: black;
+    -fx-padding: 5;
+}
+
+.combobox{
+    -fx-font: 16px "Arial";
+    -fx-text-fill: white;
+    -fx-background-color: black;
+    -fx-padding: 5;
+}

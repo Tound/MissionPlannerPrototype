@@ -30,6 +30,13 @@ public class CreateUAV {
     private static TextField turnRadius = new TextField();
     private static TextField battery = new TextField();
 
+    public CreateUAV(){
+        //
+
+
+
+    }
+
     public static void newUAV(){
         CreateStage.setTitle("UAV Setup");
         CreateStage.initModality(Modality.APPLICATION_MODAL);
