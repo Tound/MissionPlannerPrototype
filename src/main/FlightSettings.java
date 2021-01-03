@@ -3,7 +3,9 @@ package main;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 public class FlightSettings {
@@ -51,19 +53,21 @@ public class FlightSettings {
         ComboBox uav = new ComboBox();
         ComboBox camera = new ComboBox();
         GridPane gp = new GridPane();
+        gp.setVgap(10);
         //Title
         gp.add(flightSettingsTitle, 0,0);
         //UAV settings
         gp.add(uavSettings, 0,1);
-
         gp.add(chosenUav, 0,2);
         gp.add(uav, 1,2);
         gp.add(uavWeight,0,3);
         gp.add(weight,1,3);
         gp.add(uavMinRad,0,4);
         gp.add(minRad,1,4);
-        gp.add(batteryType,0,5);
-        gp.add(batterySettings,1,5);
+        gp.add(uavBattery,0,5);
+        gp.add(batteryType,1,5);
+        gp.add(uavBatterySettings,0,5);
+        gp.add(batterySettings,0,5);
         gp.add(createUAV,0,6);
         gp.add(editUAV,1,6);
         //Camera settings

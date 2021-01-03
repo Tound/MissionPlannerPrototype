@@ -124,6 +124,8 @@ public class MissionPlanner extends Application {
                 flightPoly = pathDrawer.joinPath();
                 flightPoly.setLayoutX(0);
                 flightPoly.setLayoutY(0);
+                pathDrawer.plotPath(20,5);
+
                 //sp.getChildren().add(flightPoly);
                 //sp.setAlignment(flightPoly, Pos.TOP_LEFT);
 

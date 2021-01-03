@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class PathDrawer{
         flightGroup.getChildren().add(flightArea);
         Image stripes = new Image("assets/stripes.jpg");
         gc.setFill(new ImagePattern(stripes, 0,0,canvas.getWidth(), canvas.getHeight(), true));
-        gc.setGlobalAlpha(0.2);
+        gc.setGlobalAlpha(0.8);
         gc.fillPolygon(flightPointsX, flightPointsY, points.size());
         gc.setFill(Color.BLACK);
         gc.setGlobalAlpha(1);
@@ -73,6 +74,35 @@ public class PathDrawer{
         complete = false;
         flightGroup.getChildren().removeAll();
         gc.restore();
+    }
+    public void plotPath(double wind, int resolution){
+        //Find max and min point
+        double maxX = 0;
+        double minX = 9999;
+        double maxY = 0;
+        double minY = 9999;
+        for(int i = 0;i<points.size();i++){
+            if(points.get(i).getX() >= maxX){
+                maxX = points.get(i).getX();
+            }
+            if(points.get(i).getY() >= maxY){
+                maxY = points.get(i).getY();
+            }
+            if(points.get(i).getX() <= minX){
+                minX = points.get(i).getX();
+            }
+            if(points.get(i).getY() <= minY){
+                minY = points.get(i).getY();
+            }
+
+        }
+        System.out.println("Min Point " + minX + "," + minY + ", Max Point " + maxX + ", " + maxY);
+        double gradient = wind - 90;
+        gc.strokeRect(minX,minY, maxX-minX, maxY-minY);
+        /*for(int i = 0;i<resolution;i++){
+            double x1 =
+            gc.strokeLine();
+        }*/
     }
 
 }
