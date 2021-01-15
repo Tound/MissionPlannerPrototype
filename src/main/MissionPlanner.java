@@ -71,7 +71,7 @@ public class MissionPlanner extends Application {
         Tab flightSettings = new Tab("Flight settings", flightTab);
         Tab cameraSettings = new Tab("Camera settings");
 
-
+        CreateUAV uavCreator =  new CreateUAV();
         tp.getTabs().addAll(flightSettings, cameraSettings);
         BorderPane bp = new BorderPane();
         StackPane sp = new StackPane();
@@ -87,9 +87,10 @@ public class MissionPlanner extends Application {
         gp.add(resetPath, 1,0);
         gp.add(createUAV,2,0);
         gp.add(uavChooser,3,0);
-
         sp.getChildren().add(iv);
         sp.getChildren().add(canvas);
+        //PathDrawer3D pd3d = new PathDrawer3D((int)map.getWidth(),(int)map.getHeight());
+        //sp.getChildren().add(pd3d.ss);
         //sp.setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY, Insets.EMPTY)));
         //sp.setMaxHeight(680);
         sp.setPrefSize(1280, 650);
@@ -141,7 +142,7 @@ public class MissionPlanner extends Application {
         createUAV.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                CreateUAV.newUAV();
+                uavCreator.newUAV();
             }
         });
     }

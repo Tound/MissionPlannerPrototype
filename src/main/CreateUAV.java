@@ -31,15 +31,12 @@ public class CreateUAV {
     private static TextField battery = new TextField();
 
     public CreateUAV(){
-        //
-
-
-
+        CreateStage.setTitle("UAV Setup");
+        CreateStage.initModality(Modality.APPLICATION_MODAL);
     }
 
     public static void newUAV(){
-        CreateStage.setTitle("UAV Setup");
-        CreateStage.initModality(Modality.APPLICATION_MODAL);
+
         GridPane gp = new GridPane();
         Text title =  new Text("UAV Settings");
         Text nameLabel =  new Text("Name:");

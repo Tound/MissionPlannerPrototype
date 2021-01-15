@@ -1,19 +1,37 @@
 package main;
 
 import javafx.scene.*;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Material;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Cylinder;
 
 import java.util.List;
 
-public class PathDrawer3D extends SubScene{
+public class PathDrawer3D{
+    int image_width = 500;
+    int image_height = 300;
     Box floor = new Box();
     List<Cylinder> points;
     Group group = new Group();
     PerspectiveCamera camera = new PerspectiveCamera();
-    public PathDrawer3D(Parent root, int width, int height){
-        super(root,width,height,true, SceneAntialiasing.BALANCED);
-        this.setCamera(camera);
+    Group root = new Group();
+    SubScene ss;
+    public PathDrawer3D(int width, int height){
+
+        Group root = new Group();
+
+        floor.setWidth(width);
+        floor.setHeight(height);
+        floor.setDepth(0);
+        PhongMaterial mat =  new PhongMaterial();
+        mat.setDiffuseMap(new Image("assets/map.png"));
+        floor.setMaterial(mat);
+        root.getChildren().add(floor);
+        ss = new SubScene(root,width,height,true, SceneAntialiasing.BALANCED);
+        ss.setCamera(camera);
     }
 
     public void addPoints(List<Coordinates> coords){
