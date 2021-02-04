@@ -21,8 +21,8 @@ public class CreateCamera {
     private static Scene createScene;
     private static String path = "src/cameras";
     private static TextField name = new TextField();
-    private static TextField weight = new TextField();
-    private static TextField turnRadius = new TextField();
+    private static TextField sensor_width = new TextField();
+    private static TextField sensor_height = new TextField();
     private static TextField battery = new TextField();
 
     public CreateCamera(){
@@ -33,6 +33,15 @@ public class CreateCamera {
     public static void newCamera(){
 
         GridPane gp = new GridPane();
+        Text title =  new Text("Create Camera");
+        Text name = new Text("Name");
+        Text sensorWidthLabel = new Text("Sensor Width");
+        Text sensorHeightLabel = new Text("Sensor Height");
+
+        gp.add(title,0,0);
+        gp.add(name, 0,1);
+        gp.add(sensorWidthLabel,0,2);
+        gp.add(sensorHeightLabel,0,3);
 
         createScene = new Scene(gp,500,700, Color.GRAY);
         CreateStage.setScene(createScene);
@@ -78,8 +87,8 @@ public class CreateCamera {
             FileWriter writer = new FileWriter(path + "/" + name.getText() + ".uav");
             System.out.println("Writing file");
             writer.write("name:" + name.getText());
-            writer.write("\nweight:" + weight.getText());
-            writer.write("\nturnRadius:" + turnRadius.getText());
+            //writer.write("\nweight:" + weight.getText());
+            //writer.write("\nturnRadius:" + turnRadius.getText());
             writer.write("\nbattery:" + battery.getText());
             writer.close();
         }catch (IOException ioe){

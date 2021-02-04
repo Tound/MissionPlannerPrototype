@@ -32,16 +32,15 @@ import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 
+import javax.script.*;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
-import java.io.File;
-import java.util.List;
-import java.util.Observable;
+import java.io.*;
+import java.nio.Buffer;
 
 public class MissionPlanner extends Application {
     private double width = 1280;
@@ -69,6 +68,15 @@ public class MissionPlanner extends Application {
         primaryStage.setHeight(height);
         primaryStage.isResizable();
 
+        Runtime rt =  Runtime.getRuntime();
+        Process p = rt.exec("python ../scripts/dubins.py");
+        BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        String line = "";
+        while((line = br.readLine()) != null){
+            System.out.println(line);
+        }
+
+        Thread.sleep(5000);
         //Set scene and show stage
         Text title = new Text("Mission Planner V1.0");
         title.setFont(Font.font("Bebas",FontPosture.ITALIC, 36));
@@ -296,5 +304,34 @@ public class MissionPlanner extends Application {
             }
         }
         return uavs;
+    }
+
+    public static void main(String[] args) throws IOException, ScriptException, NoSuchMethodException {
+        /*System.out.println(System.getProperty("user.dir"));
+        StringWriter writer = new StringWriter();
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptContext context =  new SimpleScriptContext();
+
+        context.setWriter(writer);
+        ScriptEngine engine = manager.getEngineByName("python");
+        engine.eval(new FileReader("./src/scripts/dubins.py"),context);
+
+        System.out.println(writer.toString());*/
+
+        /*Runtime rt = Runtime.getRuntime();
+        Process pr = rt.exec("python src/scripts/dubins.py");
+        BufferedReader bf = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+        String line = "";
+        while ((line= bf.readLine()) != null){
+            System.out.println(line);
+        }*/
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("Python");
+        engine.eval(new FileReader("./src/scripts/dubins.js"));
+        Invocable invocable = (Invocable)engine;
+        Object result = invocable.invokeFunction("dubins");
+        System.out.println(result);
+
+        launch(args);
     }
 }
